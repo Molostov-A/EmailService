@@ -12,10 +12,12 @@ namespace EmailServiceWebApp.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly Service service;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, Service service)
         {
             _logger = logger;
+            this.service = service;
         }
 
         public IActionResult Index()
@@ -26,6 +28,12 @@ namespace EmailServiceWebApp.Controllers
         public IActionResult Privacy()
         {
             return View();
+        }
+
+        public IActionResult SendEmailCustom()
+        {
+            service.SendEmailCustom();
+            return RedirectToAction("Index");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
