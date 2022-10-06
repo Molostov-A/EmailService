@@ -14,24 +14,36 @@ namespace EmailServiceWebApp
             this.logger = logger;
         }
 
-        public void SendEmailCustom()
+        public void SendEmailCustomTest2()
         {
             try
             {
-                MimeMessage message = new MimeMessage(); // Класс библиотеки MailKit
-                message.From.Add(new MailboxAddress("EmailServiceWebApp", "molotovalexmarks@gmail.com")); //адрес отправления
-                message.To.Add(new MailboxAddress("", "odisei.arco26@gmail.com")); //адрес назначения
-                message.Subject = "thema"; //тема сообщения
+                var message = new MimeMessage(); // Класс библиотеки MailKit
+                message.From.Add(new MailboxAddress("EmailServiceWebApp", "molotovalexmarks@gmail.com"));  //адрес отправления
+                message.To.Add(new MailboxAddress("NoName", "odisei.arco26@gmail.com")); //адрес назначения
+                message.Subject = "Test message";//тема сообщения
                 message.Body = new BodyBuilder()
                 {
                     HtmlBody = "<div stile =\"color: green;\">Сообщение от EmailServiceWebApp</div>", // тело сообщения
                 }.ToMessageBody();
-                using (SmtpClient client = new SmtpClient())
-                {
-                    client.Connect("smtp.gmail.com", 578, true); //подключение к сервису gmail, порт, соединение защищено
-                    client.Authenticate("molotovalexmarks@gmail.com", "pass"); //аккаунт гугл и пароль
-                    client.Send(message);
+                //message.Body = new TextPart("plain")
+                //{
+                //    Text = @"Дети хотят стать взрослыми. Взрослые хотят стать детьми. И только подростки уже устали от жизни и хотят сдохнуть"
+                //};
 
+                using (var client = new SmtpClient())
+                {
+                    client.Connect("smtp.gmail.com", 587);
+
+
+                    // Note: since we don't have an OAuth2 token, disable
+                    // the XOAUTH2 authentication mechanism.
+                    client.AuthenticationMechanisms.Remove("XOAUTH2");
+
+                    // Note: only needed if the SMTP server requires authentication
+                    client.Authenticate("molotovalexmarks@gmail.com", "pass");
+
+                    client.Send(message);
                     client.Disconnect(true);
                     logger.LogInformation("Сообщение отправлено успешно!");
                 }
