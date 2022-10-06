@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Unicode;
@@ -11,7 +12,7 @@ namespace EmailServiceWebApp
 
         public JsonProvider(string name)
         {
-            path = Directory.GetCurrentDirectory() + @"\" + name + ".json";
+            path = AppContext.BaseDirectory + name + ".json";
         }
 
         public void Write<T>(T TObject)

@@ -32,7 +32,7 @@ namespace EmailServiceWebApp.Controllers
 
         public IActionResult SendEmailCustom()
         {
-            service.SendEmailCustomTest2();
+            service.SendEmailMessage();
             return RedirectToAction("Index");
         }
 
