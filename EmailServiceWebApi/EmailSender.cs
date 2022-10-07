@@ -9,6 +9,8 @@ namespace EmailServiceWebApi
 {
     public class EmailSender
     {
+        private string titleMail => "EmailServiceWebApi";
+        private string nameFileConfigurationEmailServer => "configurationEmailServer";
 
         private readonly ILogger<EmailSender> _logger;
 
@@ -23,13 +25,13 @@ namespace EmailServiceWebApi
         /// <param name="item">The data packet required to send messages</param>
         public void SendEmailMessage(MailsItem item)
         {
-            var jsonProvider = new JsonProvider("configurationEmailServer");
+            var jsonProvider = new JsonProvider(nameFileConfigurationEmailServer);
             var configEmailServer = jsonProvider.Read<ConfigureEmailServer>();
             //
             try
             {
                 var message = new MimeMessage();
-                message.From.Add(new MailboxAddress("EmailServiceWebApi", configEmailServer.EmailFrom));
+                message.From.Add(new MailboxAddress(titleMail, configEmailServer.EmailFrom));
 
                 foreach (var recipient in item.Recipients)
                 {
@@ -55,7 +57,7 @@ namespace EmailServiceWebApi
 
                     client.Send(message);
                     client.Disconnect(true);
-                    _logger.LogInformation("Сообщение отправлено успешно!");
+                    _logger.LogInformation("Message sent successfully!");
                     item.Result = "OK";
                 }
             }
