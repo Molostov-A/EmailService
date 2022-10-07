@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace EmailServiceWebApi.Models
 {
@@ -12,7 +13,7 @@ namespace EmailServiceWebApi.Models
         public string Body { get; set; }
 
         [JsonPropertyName("recipients")]
-        public string Recipients { get; set; }
+        public List<string> Recipients { get; set; }
 
     }
 }
