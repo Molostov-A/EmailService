@@ -4,18 +4,17 @@ using EmailServiceWebApi.Models;
 using MailKit.Net.Smtp;
 using Microsoft.Extensions.Logging;
 using MimeKit;
-using Org.BouncyCastle.Cms;
 
 namespace EmailServiceWebApi
 {
     public class EmailSender
     {
 
-        private readonly ILogger<EmailSender> logger;
+        private readonly ILogger<EmailSender> _logger;
 
         public EmailSender(ILogger<EmailSender> logger)
         {
-            this.logger = logger;
+            this._logger = logger;
         }
 
         public void SendEmailMessage(MailsItem item)
@@ -53,13 +52,13 @@ namespace EmailServiceWebApi
 
                     client.Send(message);
                     client.Disconnect(true);
-                    logger.LogInformation("Сообщение отправлено успешно!");
+                    _logger.LogInformation("Сообщение отправлено успешно!");
                     item.Result = "OK";
                 }
             }
             catch (Exception e)
             {
-                logger.LogError(e.GetBaseException().Message);
+                _logger.LogError(e.GetBaseException().Message);
                 item.Result = "Failed";
                 item.FailedMessage = e.GetBaseException().Message;
             }
