@@ -30,7 +30,7 @@ namespace EmailServiceWebApi.Controllers
                 return BadRequest();
             }
             MailsItems.Add(item);
-            return CreatedAtRoute("GetMails", new { id = item.Key }, item);
+            return CreatedAtRoute("GetMails", new { id = item.Id }, item);
         }
     }
 }

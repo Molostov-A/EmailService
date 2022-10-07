@@ -4,7 +4,7 @@ namespace EmailService.Db.Models
 {
     public class MailsItem
     {
-        public  string Key { get; set; }
+        public Guid Id { get; set; }
         
         public DateTime Date { get; set; }
         

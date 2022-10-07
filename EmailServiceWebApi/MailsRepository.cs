@@ -8,7 +8,7 @@ namespace EmailServiceWebApi
 {
     public class MailsRepository : IMailsRepository
     {
-        private static ConcurrentDictionary<string, MailsItem> _mails = new ConcurrentDictionary<string, MailsItem>();
+        private static ConcurrentDictionary<Guid, MailsItem> _mails = new ConcurrentDictionary<Guid, MailsItem>();
         private readonly EmailSender emailSender;
         public MailsRepository(EmailSender emailSender)
         {
@@ -17,9 +17,9 @@ namespace EmailServiceWebApi
 
         public void Add(MailsItem item)
         {
-            item.Key = Guid.NewGuid().ToString();
+            item.Id = Guid.NewGuid();
             item.Date = DateTime.UtcNow;
-            _mails[item.Key] = item;
+            _mails[item.Id] = item;
             emailSender.SendEmailMessage(item);
         }
 

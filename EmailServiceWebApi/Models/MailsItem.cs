@@ -5,8 +5,8 @@ namespace EmailServiceWebApi.Models
 {
     public class MailsItem
     {
-        [JsonPropertyName("key")]
-        public  string Key { get; set; }
+        [JsonPropertyName("id")]
+        public  Guid Id { get; set; }
 
         [JsonPropertyName("date")]
         public DateTime Date { get; set; }
