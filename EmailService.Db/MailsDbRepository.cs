@@ -16,6 +16,10 @@ namespace EmailService.Db
             _db = db;
         }
 
+        /// <summary>
+        /// Add a record to the database
+        /// </summary>
+        /// <returns></returns>
         public void Add(MailsItem item)
         {
             item.Id = Guid.NewGuid();
@@ -25,6 +29,10 @@ namespace EmailService.Db
             _db.SaveChanges();
         }
 
+        /// <summary>
+        /// Return the entire list of recorded data packets to send from the database
+        /// </summary>
+        /// <returns></returns>
         public IEnumerable<MailsItem> GetAll()
         {
             var mails = _db.MailsItems.ToList();
