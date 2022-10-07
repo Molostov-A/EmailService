@@ -14,6 +14,7 @@ namespace EmailService.Db.Models
         public string Body { get; set; }
 
         public string Signed { get; set; }
+        public string Title { get; set; }
 
         public List<Recipient> Recipients { get; set; }
         
