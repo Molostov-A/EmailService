@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using EmailService.Db.Models;
 using EmailService.Db.Interfaces;
-using Microsoft.EntityFrameworkCore;
 
 namespace EmailService.Db
 {

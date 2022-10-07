@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EmailService.Db
 {
-    public class DatabaseContext: DbContext
+    public class DatabaseContext : DbContext
     {
         public DbSet<MailsItem> MailsItems { get; set; }
         public DbSet<Recipient> Recipients { get; set; }

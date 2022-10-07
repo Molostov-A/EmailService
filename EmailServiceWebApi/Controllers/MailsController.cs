@@ -46,13 +46,13 @@ namespace EmailServiceWebApi.Controllers
             }
 
             var item = Mapping.ToMailsItem(itemPostPost);
-            
+
             _emailSender.SendEmailMessage(item);
             _mails.Add(item);
 
             return CreatedAtRoute("GetMails", new { id = item.Id }, item);
         }
 
-        
+
     }
 }
