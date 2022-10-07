@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using System;
+using System.Text.Json.Serialization;
 
 namespace EmailServiceWebApi.Models
 {
@@ -8,7 +9,7 @@ namespace EmailServiceWebApi.Models
         public  string Key { get; set; }
 
         [JsonPropertyName("date")]
-        public string Date { get; set; }
+        public DateTime Date { get; set; }
 
         [JsonPropertyName("subject")]
         public string Subject { get; set; }
