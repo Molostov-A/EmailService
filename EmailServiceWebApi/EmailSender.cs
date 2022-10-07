@@ -16,7 +16,7 @@ namespace EmailServiceWebApi
             this.logger = logger;
         }
 
-        public void SendEmailMessage()
+        public void SendEmailMessage(MailsItem item)
         {
             var jsonProvider = new JsonProvider("configurationEmailServer");
             var configEmailServer = jsonProvider.Read<ConfigureEmailServer>();
@@ -24,12 +24,17 @@ namespace EmailServiceWebApi
             try
             {
                 var message = new MimeMessage();
-                message.From.Add(new MailboxAddress("EmailServiceWebApp", configEmailServer.EmailFrom));
-                message.To.Add(new MailboxAddress("NoName", configEmailServer.EmailTo));
-                message.Subject = configEmailServer.Subject;
+                message.From.Add(new MailboxAddress("EmailServiceWebApi", configEmailServer.EmailFrom));
+                foreach (var recipient in item.Recipients)
+                {
+                    message.To.Add(new MailboxAddress("", recipient));
+                }
+
+                message.Subject = item.Subject;
                 message.Body = new BodyBuilder()
                 {
-                    HtmlBody = configEmailServer.Body,
+                    HtmlBody = item.Body,
+
                 }.ToMessageBody();
 
                 using (var client = new SmtpClient())
@@ -45,11 +50,14 @@ namespace EmailServiceWebApi
                     client.Send(message);
                     client.Disconnect(true);
                     logger.LogInformation("Сообщение отправлено успешно!");
+                    item.Result = "OK";
                 }
             }
             catch (Exception e)
             {
                 logger.LogError(e.GetBaseException().Message);
+                item.Result = "Failed";
+                item.FailedMessage = e.GetBaseException().Message;
             }
         }
     }
