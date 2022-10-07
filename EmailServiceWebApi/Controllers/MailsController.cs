@@ -1,8 +1,9 @@
-﻿using System.Collections;
+﻿using System;
 using System.Collections.Generic;
-using EmailServiceWebApi.Interfaces;
+using EmailService.Db.Interfaces;
+using EmailService.Db.Models;
+using EmailServiceWebApi.Helpers;
 using EmailServiceWebApi.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EmailServiceWebApi.Controllers
@@ -11,26 +12,37 @@ namespace EmailServiceWebApi.Controllers
     [ApiController]
     public class MailsController : ControllerBase
     {
-        public IMailsRepository MailsItems { get; set; }
-        public MailsController(IMailsRepository mails)
+        private readonly IMailsRepository _mails;
+        private readonly EmailSender _emailSender;
+        public MailsController(IMailsRepository mails, EmailSender emailSender)
         {
-            MailsItems = mails;
+            _mails = mails;
+            _emailSender = emailSender;
         }
 
-        public IEnumerable<MailsItem> GetAll()
+        public IEnumerable<MailsItemViewGet> GetAll()
         {
-            return MailsItems.GetAll();
+            var mails = _mails.GetAll();
+            var mailsView = Mapping.ToListMailsItemViewGet(mails);
+            return mailsView;
         }
 
         [HttpPost]
-        public IActionResult Send([FromBody] MailsItem item)
+        public IActionResult Send([FromBody] MailsItemViews itemViewsView)
         {
-            if (item == null)
+            if (itemViewsView == null)
             {
                 return BadRequest();
             }
-            MailsItems.Add(item);
-            return CreatedAtRoute("GetMails", new { id = item.Key }, item);
+
+            var item = Mapping.ToMailsItem(itemViewsView);
+            
+            _emailSender.SendEmailMessage(item);
+            _mails.Add(item);
+
+            return CreatedAtRoute("GetMails", new { id = item.Id }, item);
         }
+
+        
     }
 }

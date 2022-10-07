@@ -1,4 +1,5 @@
 ﻿using System;
+using EmailService.Db.Models;
 using EmailServiceWebApi.Models;
 using MailKit.Net.Smtp;
 using Microsoft.Extensions.Logging;
@@ -9,11 +10,11 @@ namespace EmailServiceWebApi
     public class EmailSender
     {
 
-        private readonly ILogger<EmailSender> logger;
+        private readonly ILogger<EmailSender> _logger;
 
         public EmailSender(ILogger<EmailSender> logger)
         {
-            this.logger = logger;
+            this._logger = logger;
         }
 
         public void SendEmailMessage(MailsItem item)
@@ -25,9 +26,10 @@ namespace EmailServiceWebApi
             {
                 var message = new MimeMessage();
                 message.From.Add(new MailboxAddress("EmailServiceWebApi", configEmailServer.EmailFrom));
+
                 foreach (var recipient in item.Recipients)
                 {
-                    message.To.Add(new MailboxAddress("", recipient));
+                    message.To.Add(new MailboxAddress("", recipient.Email));
                 }
 
                 message.Subject = item.Subject;
@@ -49,13 +51,13 @@ namespace EmailServiceWebApi
 
                     client.Send(message);
                     client.Disconnect(true);
-                    logger.LogInformation("Сообщение отправлено успешно!");
+                    _logger.LogInformation("Сообщение отправлено успешно!");
                     item.Result = "OK";
                 }
             }
             catch (Exception e)
             {
-                logger.LogError(e.GetBaseException().Message);
+                _logger.LogError(e.GetBaseException().Message);
                 item.Result = "Failed";
                 item.FailedMessage = e.GetBaseException().Message;
             }

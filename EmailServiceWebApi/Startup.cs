@@ -1,16 +1,11 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using EmailServiceWebApi.Interfaces;
+using EmailService.Db;
+using EmailService.Db.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace EmailServiceWebApi
 {
@@ -25,10 +20,15 @@ namespace EmailServiceWebApi
         
         public void ConfigureServices(IServiceCollection services)
         {
+            string connection = Configuration.GetConnectionString("email_service");
+
             services.AddControllers();
             services.AddMvc();
+
+            services.AddDbContext<DatabaseContext>(options =>
+                options.UseSqlServer(connection));
             services.AddTransient<EmailSender>();
-            services.AddSingleton<IMailsRepository, MailsRepository>();
+            services.AddTransient<IMailsRepository, MailsDbRepository>();
         }
         
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

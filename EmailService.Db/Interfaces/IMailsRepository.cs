@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using EmailServiceWebApi.Models;
+using EmailService.Db.Models;
 
-namespace EmailServiceWebApi.Interfaces
+namespace EmailService.Db.Interfaces
 {
     public interface IMailsRepository
     {
