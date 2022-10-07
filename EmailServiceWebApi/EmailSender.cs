@@ -27,11 +27,10 @@ namespace EmailServiceWebApi
                 var message = new MimeMessage();
                 message.From.Add(new MailboxAddress("EmailServiceWebApi", configEmailServer.EmailFrom));
 
-                //foreach (var recipient in item.Recipients)
-                //{
-                //    message.To.Add(new MailboxAddress("", recipient));
-                //}
-                message.To.Add(new MailboxAddress("", item.Recipients));
+                foreach (var recipient in item.Recipients)
+                {
+                    message.To.Add(new MailboxAddress("", recipient.Email));
+                }
 
                 message.Subject = item.Subject;
                 message.Body = new BodyBuilder()
