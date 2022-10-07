@@ -7,6 +7,7 @@ namespace EmailService.Db
     {
         // Доступ к таблицам
         public DbSet<MailsItem> MailsItems { get; set; }
+        public DbSet<Recipient> Recipients { get; set; }
         public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options)
         {
             Database.EnsureCreated(); 
