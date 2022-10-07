@@ -2,6 +2,9 @@
 
 namespace EmailServiceWebApi.Models
 {
+    /// <summary>
+    /// SMTP server configuration
+    /// </summary>
     public class ConfigureEmailServer
     {
         [JsonPropertyName ("emailFrom")]
