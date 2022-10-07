@@ -12,5 +12,9 @@
     <ProjectReference Include="..\EmailService.Db\EmailService.Db.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Helpers\" />
+  </ItemGroup>
+
 
 </Project>
