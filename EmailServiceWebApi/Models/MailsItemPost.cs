@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace EmailServiceWebApi.Models
 {
-    public class MailsItemViews
+    public class MailsItemPost
     {
 
         [JsonPropertyName("subject")]
