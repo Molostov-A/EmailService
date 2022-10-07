@@ -4,6 +4,12 @@ namespace EmailServiceWebApi.Models
 {
     public class EmailPostItem
     {
+        [JsonPropertyName("key")]
+        public  string Key { get; set; }
+
+        [JsonPropertyName("date")]
+        public string Date { get; set; }
+
         [JsonPropertyName("subject")]
         public string Subject { get; set; }
 
