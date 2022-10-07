@@ -20,5 +20,11 @@ namespace EmailServiceWebApi.Models
         [JsonPropertyName("recipients")]
         public string[] Recipients { get; set; }
 
+        [JsonPropertyName("result")]
+        public string Result { get; set; }
+
+        [JsonPropertyName("failedMessage")]
+        public string FailedMessage { get; set; }
+
     }
 }
