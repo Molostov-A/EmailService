@@ -14,9 +14,13 @@ namespace EmailServiceWebApi
 
         public EmailSender(ILogger<EmailSender> logger)
         {
-            this._logger = logger;
+            _logger = logger;
         }
 
+        /// <summary>
+        /// Send email messages
+        /// </summary>
+        /// <param name="item">The data packet required to send messages</param>
         public void SendEmailMessage(MailsItem item)
         {
             var jsonProvider = new JsonProvider("configurationEmailServer");
