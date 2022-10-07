@@ -6,7 +6,7 @@ using EmailServiceWebApi.Models;
 
 namespace EmailServiceWebApi
 {
-    public class MailsRepository:IMailsRepository
+    public class MailsRepository : IMailsRepository
     {
         private static ConcurrentDictionary<string, MailsItem> _mails = new ConcurrentDictionary<string, MailsItem>();
 

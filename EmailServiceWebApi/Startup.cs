@@ -27,6 +27,7 @@ namespace EmailServiceWebApi
         {
             services.AddControllers();
             services.AddMvc();
+            services.AddTransient<EmailSender>();
             services.AddSingleton<IMailsRepository, MailsRepository>();
         }
         
