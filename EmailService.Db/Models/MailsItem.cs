@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace EmailService.Db.Models
 {
@@ -12,7 +13,7 @@ namespace EmailService.Db.Models
         
         public string Body { get; set; }
         
-        public string Recipients { get; set; }
+        public List<Recipient> Recipients { get; set; }
         
         public string Result { get; set; }
         
