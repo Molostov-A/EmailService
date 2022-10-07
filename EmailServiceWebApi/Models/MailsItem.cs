@@ -13,7 +13,7 @@ namespace EmailServiceWebApi.Models
         public string Body { get; set; }
 
         [JsonPropertyName("recipients")]
-        public string[] Recipients { get; set; }
+        public string Recipients { get; set; }
 
     }
 }

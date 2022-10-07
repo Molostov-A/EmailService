@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Linq;
 using EmailService.Db.Models;
 using EmailService.Db.Interfaces;
 
@@ -8,19 +9,25 @@ namespace EmailService.Db
 {
     public class MailsDbRepository : IMailsRepository
     {
-        private static ConcurrentDictionary<Guid, MailsDbItem> _mails = new ConcurrentDictionary<Guid, MailsDbItem>();
+        private readonly DatabaseContext databaseContext;
+
+        public MailsDbRepository(DatabaseContext databaseContext)
+        {
+            this.databaseContext = databaseContext;
+        }
 
 
         public void Add(MailsDbItem dbItem)
         {
             dbItem.Id = Guid.NewGuid();
             dbItem.Date = DateTime.UtcNow;
-            _mails[dbItem.Id] = dbItem;
+            databaseContext.MailsItems.Add(dbItem);
+            databaseContext.SaveChanges();
         }
 
         public IEnumerable<MailsDbItem> GetAll()
         {
-            return _mails.Values;
+            return databaseContext.MailsItems.ToList();
         }
     }
 }

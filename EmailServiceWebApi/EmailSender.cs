@@ -4,6 +4,7 @@ using EmailServiceWebApi.Models;
 using MailKit.Net.Smtp;
 using Microsoft.Extensions.Logging;
 using MimeKit;
+using Org.BouncyCastle.Cms;
 
 namespace EmailServiceWebApi
 {
@@ -26,10 +27,12 @@ namespace EmailServiceWebApi
             {
                 var message = new MimeMessage();
                 message.From.Add(new MailboxAddress("EmailServiceWebApi", configEmailServer.EmailFrom));
-                foreach (var recipient in item.Recipients)
-                {
-                    message.To.Add(new MailboxAddress("", recipient));
-                }
+
+                //foreach (var recipient in item.Recipients)
+                //{
+                //    message.To.Add(new MailboxAddress("", recipient));
+                //}
+                message.To.Add(new MailboxAddress("", item.Recipients));
 
                 message.Subject = item.Subject;
                 message.Body = new BodyBuilder()

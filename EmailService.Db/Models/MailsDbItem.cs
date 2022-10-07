@@ -12,7 +12,7 @@ namespace EmailService.Db.Models
         
         public string Body { get; set; }
         
-        public string[] Recipients { get; set; }
+        public string Recipients { get; set; }
         
         public string Result { get; set; }
         

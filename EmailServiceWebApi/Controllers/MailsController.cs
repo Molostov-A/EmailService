@@ -12,15 +12,17 @@ namespace EmailServiceWebApi.Controllers
     [ApiController]
     public class MailsController : ControllerBase
     {
-        public IMailsRepository MailsItems { get; set; }
-        public MailsController(IMailsRepository mails)
+        private readonly IMailsRepository _mails;
+        private readonly EmailSender _emailSender;
+        public MailsController(IMailsRepository mails, EmailSender emailSender)
         {
-            MailsItems = mails;
+            _mails = mails;
+            _emailSender = emailSender;
         }
 
         public IEnumerable<MailsDbItem> GetAll()
         {
-            return MailsItems.GetAll();
+            return _mails.GetAll();
         }
 
         [HttpPost]
@@ -37,8 +39,9 @@ namespace EmailServiceWebApi.Controllers
                 Body = itemView.Body,
                 Recipients = itemView.Recipients
             };
+            _emailSender.SendEmailMessage(item);
+            _mails.Add(item);
 
-            MailsItems.Add(item);
             return CreatedAtRoute("GetMails", new { id = item.Id }, item);
         }
     }

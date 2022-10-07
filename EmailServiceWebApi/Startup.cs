@@ -35,7 +35,7 @@ namespace EmailServiceWebApi
             services.AddDbContext<DatabaseContext>(options =>
                 options.UseSqlServer(connection));
             services.AddTransient<EmailSender>();
-            services.AddSingleton<IMailsRepository, MailsRepository>();
+            services.AddTransient<IMailsRepository, MailsDbRepository>();
         }
         
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
