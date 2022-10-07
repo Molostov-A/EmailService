@@ -26,18 +26,18 @@ namespace EmailServiceWebApi.Controllers
         }
 
         [HttpPost]
-        public IActionResult Send([FromBody] MailsItem itemView)
+        public IActionResult Send([FromBody] MailsItemViews itemViewsView)
         {
-            if (itemView == null)
+            if (itemViewsView == null)
             {
                 return BadRequest();
             }
 
             var item = new MailsDbItem()
             {
-                Subject = itemView.Subject,
-                Body = itemView.Body,
-                Recipients = itemView.Recipients
+                Subject = itemViewsView.Subject,
+                Body = itemViewsView.Body,
+                Recipients = itemViewsView.Recipients
             };
             _emailSender.SendEmailMessage(item);
             _mails.Add(item);
