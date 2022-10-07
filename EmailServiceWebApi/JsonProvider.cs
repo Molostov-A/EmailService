@@ -10,11 +10,20 @@ namespace EmailServiceWebApi
     {
         private string path { get; }
 
+        /// <summary>
+        /// A universal class that handles json files in the root directory (where the exe-file is stored)
+        /// </summary>
+        /// <param name="name">the name of the file that the class works with (write it down without .json)</param>
         public JsonProvider(string name)
         {
             path = AppContext.BaseDirectory + name + ".json";
         }
 
+        /// <summary>
+        /// Creates or overwrites a file
+        /// </summary>
+        /// <typeparam name="T">The type of object that is written to the file (classes or lists with arrays)</typeparam>
+        /// <param name="TObject"></param>
         public void Write<T>(T TObject)
         {
             var options = new JsonSerializerOptions
@@ -26,6 +35,11 @@ namespace EmailServiceWebApi
             File.WriteAllText(path, json);
         }
 
+        /// <summary>
+        /// Reads an object from a file
+        /// </summary>
+        /// <typeparam name="T">The type of object</typeparam>
+        /// <returns></returns>
         public T Read<T>() where T : new()
         {
             T TObject = new T();
