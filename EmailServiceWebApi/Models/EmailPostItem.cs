@@ -2,7 +2,7 @@
 
 namespace EmailServiceWebApi.Models
 {
-    public class EmailPost
+    public class EmailPostItem
     {
         [JsonPropertyName("subject")]
         public string Subject { get; set; }
