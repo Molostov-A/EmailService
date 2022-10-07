@@ -10,9 +10,7 @@ namespace EmailService.Db
         public DbSet<Recipient> Recipients { get; set; }
         public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options)
         {
-            Database.EnsureCreated(); 
+            Database.Migrate();
         }
-
-        
     }
 }
