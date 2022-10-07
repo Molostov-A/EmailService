@@ -20,6 +20,10 @@ namespace EmailServiceWebApi.Controllers
             _emailSender = emailSender;
         }
 
+        /// <summary>
+        /// Get request to get the data of all post requests to send emails (url/../api/mails/)
+        /// </summary>
+        /// <returns></returns>
         public IEnumerable<MailsItemGet> GetAll()
         {
             var mails = _mails.GetAll();
@@ -27,6 +31,12 @@ namespace EmailServiceWebApi.Controllers
             return mailsView;
         }
 
+        /// <summary>
+        /// Post json request to send mail messages (url/../api/mails/)
+        /// Request of the form:  { "subject": "string", "body": "string", "recipients":["mail@mail.com"]}
+        /// </summary>
+        /// <param name="itemPostPost"></param>
+        /// <returns></returns>
         [HttpPost]
         public IActionResult Send([FromBody] MailsItemPost itemPostPost)
         {
