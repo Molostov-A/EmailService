@@ -2,7 +2,7 @@
 
 namespace EmailService.Db.Models
 {
-    public class MailsDbItem
+    public class MailsItem
     {
         public Guid Id { get; set; }
         

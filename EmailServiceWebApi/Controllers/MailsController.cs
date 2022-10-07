@@ -20,7 +20,7 @@ namespace EmailServiceWebApi.Controllers
             _emailSender = emailSender;
         }
 
-        public IEnumerable<MailsDbItem> GetAll()
+        public IEnumerable<MailsItem> GetAll()
         {
             return _mails.GetAll();
         }
@@ -33,7 +33,7 @@ namespace EmailServiceWebApi.Controllers
                 return BadRequest();
             }
 
-            var item = new MailsDbItem()
+            var item = new MailsItem()
             {
                 Subject = itemViewsView.Subject,
                 Body = itemViewsView.Body,

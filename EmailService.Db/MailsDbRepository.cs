@@ -17,15 +17,15 @@ namespace EmailService.Db
         }
 
 
-        public void Add(MailsDbItem dbItem)
+        public void Add(MailsItem item)
         {
-            dbItem.Id = Guid.NewGuid();
-            dbItem.Date = DateTime.UtcNow;
-            databaseContext.MailsItems.Add(dbItem);
+            item.Id = Guid.NewGuid();
+            item.Date = DateTime.UtcNow;
+            databaseContext.MailsItems.Add(item);
             databaseContext.SaveChanges();
         }
 
-        public IEnumerable<MailsDbItem> GetAll()
+        public IEnumerable<MailsItem> GetAll()
         {
             return databaseContext.MailsItems.ToList();
         }

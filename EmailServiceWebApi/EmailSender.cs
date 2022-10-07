@@ -18,7 +18,7 @@ namespace EmailServiceWebApi
             this.logger = logger;
         }
 
-        public void SendEmailMessage(MailsDbItem item)
+        public void SendEmailMessage(MailsItem item)
         {
             var jsonProvider = new JsonProvider("configurationEmailServer");
             var configEmailServer = jsonProvider.Read<ConfigureEmailServer>();

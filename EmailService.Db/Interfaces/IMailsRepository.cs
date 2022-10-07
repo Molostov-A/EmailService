@@ -5,7 +5,7 @@ namespace EmailService.Db.Interfaces
 {
     public interface IMailsRepository
     {
-        void Add(MailsDbItem dbItem);
-        IEnumerable<MailsDbItem> GetAll();
+        void Add(MailsItem item);
+        IEnumerable<MailsItem> GetAll();
     }
 }
