@@ -1,4 +1,5 @@
 ﻿using System;
+using EmailService.Db.Models;
 using EmailServiceWebApi.Models;
 using MailKit.Net.Smtp;
 using Microsoft.Extensions.Logging;
@@ -16,7 +17,7 @@ namespace EmailServiceWebApi
             this.logger = logger;
         }
 
-        public void SendEmailMessage(MailsItem item)
+        public void SendEmailMessage(MailsDbItem item)
         {
             var jsonProvider = new JsonProvider("configurationEmailServer");
             var configEmailServer = jsonProvider.Read<ConfigureEmailServer>();

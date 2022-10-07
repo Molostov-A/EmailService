@@ -11,7 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using EmailService.Db;
-using EmailServiceWebApi.Interfaces;
+using EmailService.Db.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace EmailServiceWebApi
