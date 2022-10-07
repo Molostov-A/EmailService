@@ -7,9 +7,9 @@ namespace EmailServiceWebApi.Helpers
 {
     public static class Mapping
     {
-        public static List<MailsItemViewGet> ToListMailsItemViewGet(IEnumerable<MailsItem> mails)
+        public static List<MailsItemGet> ToListMailsItemGet(IEnumerable<MailsItem> mails)
         {
-            var mailsView = new List<MailsItemViewGet>();
+            var mailsView = new List<MailsItemGet>();
             foreach (var mail in mails)
             {
                 var recipients = new List<string>();
@@ -19,36 +19,37 @@ namespace EmailServiceWebApi.Helpers
                 }
                 mailsView.Add
                 (
-                    new MailsItemViewGet()
+                    new MailsItemGet()
                     {
                         Body = mail.Body,
                         Subject = mail.Subject,
-                        FailedMessage = mail.FailedMessage,
                         Recipients = recipients,
-                        Result = mail.Result
+                        Date = mail.Date,
+                        Result = mail.Result,
+                        FailedMessage = mail.FailedMessage,
                     }
                 );
             }
             return mailsView;
         }
 
-        public static MailsItem ToMailsItem(MailsItemViews itemViewsView)
+        public static MailsItem ToMailsItem(MailsItemPost itemPostPost)
         {
             MailsItem item = new MailsItem();
             List<Recipient> recipients = new List<Recipient>();
-            for (int i = 0; i < itemViewsView.Recipients.Count; i++)
+            for (int i = 0; i < itemPostPost.Recipients.Count; i++)
             {
                 recipients.Add(new Recipient()
                 {
                     Id = Guid.NewGuid(),
-                    Email = itemViewsView.Recipients[i],
+                    Email = itemPostPost.Recipients[i],
                     MailsItem = item
                 });
             }
             item = new MailsItem()
             {
-                Subject = itemViewsView.Subject,
-                Body = itemViewsView.Body,
+                Subject = itemPostPost.Subject,
+                Body = itemPostPost.Body,
                 Recipients = recipients
             };
             return item;

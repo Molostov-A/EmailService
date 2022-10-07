@@ -2,9 +2,12 @@
 
 namespace EmailServiceWebApi.Models
 {
+    /// <summary>
+    /// SMTP server configuration
+    /// </summary>
     public class ConfigureEmailServer
     {
-        [JsonPropertyName ("emailFrom")]
+        [JsonPropertyName("emailFrom")]
         public string EmailFrom { get; set; }
 
         [JsonPropertyName("password")]

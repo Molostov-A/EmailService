@@ -20,29 +20,39 @@ namespace EmailServiceWebApi.Controllers
             _emailSender = emailSender;
         }
 
-        public IEnumerable<MailsItemViewGet> GetAll()
+        /// <summary>
+        /// Get request to get the data of all post requests to send emails (url/../api/mails/)
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<MailsItemGet> GetAll()
         {
             var mails = _mails.GetAll();
-            var mailsView = Mapping.ToListMailsItemViewGet(mails);
+            var mailsView = Mapping.ToListMailsItemGet(mails);
             return mailsView;
         }
 
+        /// <summary>
+        /// Post json request to send mail messages (url/../api/mails/)
+        /// Request of the form:  { "subject": "string", "body": "string", "recipients":["mail@mail.com"]}
+        /// </summary>
+        /// <param name="itemPostPost"></param>
+        /// <returns></returns>
         [HttpPost]
-        public IActionResult Send([FromBody] MailsItemViews itemViewsView)
+        public IActionResult Send([FromBody] MailsItemPost itemPostPost)
         {
-            if (itemViewsView == null)
+            if (itemPostPost == null)
             {
                 return BadRequest();
             }
 
-            var item = Mapping.ToMailsItem(itemViewsView);
-            
+            var item = Mapping.ToMailsItem(itemPostPost);
+
             _emailSender.SendEmailMessage(item);
             _mails.Add(item);
 
             return CreatedAtRoute("GetMails", new { id = item.Id }, item);
         }
 
-        
+
     }
 }

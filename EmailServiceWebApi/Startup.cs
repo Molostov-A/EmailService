@@ -17,7 +17,7 @@ namespace EmailServiceWebApi
         }
 
         public IConfiguration Configuration { get; }
-        
+
         public void ConfigureServices(IServiceCollection services)
         {
             string connection = Configuration.GetConnectionString("email_service");
@@ -30,7 +30,7 @@ namespace EmailServiceWebApi
             services.AddTransient<EmailSender>();
             services.AddTransient<IMailsRepository, MailsDbRepository>();
         }
-        
+
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
