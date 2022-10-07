@@ -27,7 +27,7 @@ namespace EmailServiceWebApi
         {
             services.AddControllers();
             services.AddMvc();
-            services.AddSingleton<IEmailPostRepository, EmailPostRepository>();
+            services.AddSingleton<IEmailLetterRepository, EmailLetterRepository>();
         }
         
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

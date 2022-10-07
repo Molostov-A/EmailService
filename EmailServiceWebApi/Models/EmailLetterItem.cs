@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace EmailServiceWebApi.Models
 {
-    public class EmailPostItem
+    public class EmailLetterItem
     {
         [JsonPropertyName("key")]
         public  string Key { get; set; }
