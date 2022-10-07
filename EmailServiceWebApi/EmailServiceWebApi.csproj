@@ -8,5 +8,9 @@
     <PackageReference Include="MailKit" Version="3.4.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\EmailService.Db\EmailService.Db.csproj" />
+  </ItemGroup>
+
 
 </Project>

@@ -10,7 +10,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using EmailService.Db;
 using EmailServiceWebApi.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace EmailServiceWebApi
 {
@@ -25,8 +27,13 @@ namespace EmailServiceWebApi
         
         public void ConfigureServices(IServiceCollection services)
         {
+            string connection = Configuration.GetConnectionString("email_service");
+
             services.AddControllers();
             services.AddMvc();
+
+            services.AddDbContext<DatabaseContext>(options =>
+                options.UseSqlServer(connection));
             services.AddTransient<EmailSender>();
             services.AddSingleton<IMailsRepository, MailsRepository>();
         }
