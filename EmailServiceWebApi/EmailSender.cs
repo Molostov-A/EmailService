@@ -44,12 +44,11 @@ namespace EmailServiceWebApi
 
                 using (var client = new SmtpClient())
                 {
-                    client.Connect("smtp.gmail.com", 587);
+                    client.Connect(_configureEmailServer.Host, _configureEmailServer.Port);
 
-                    // since we don't have an OAuth2 token, disable the OAUTH2 authentication mechanism.
-                    client.AuthenticationMechanisms.Remove("XOAUTH2");
+                    if(_configureEmailServer.RemoveAuthenticationMechanism)
+                        client.AuthenticationMechanisms.Remove(_configureEmailServer.TypeTokenAuthenticationMechanism);
 
-                    // only needed if the SMTP server requires authentication
                     client.Authenticate(_configureEmailServer.EmailFrom, _configureEmailServer.Password);
 
                     client.Send(message);
