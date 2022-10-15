@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using EmailService.Db.Models;
 using EmailService.Db.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace EmailService.Db
 {
@@ -34,13 +35,7 @@ namespace EmailService.Db
         /// <returns></returns>
         public IEnumerable<MailsItem> GetAll()
         {
-            var mails = _db.MailsItems.ToList();
-            foreach (var mail in mails)
-            {
-                var recipients = _db.Recipients.Where(r => r.MailsItem.Id == mail.Id).ToList();
-                mail.Recipients = recipients;
-            }
-            return mails;
+            return _db.MailsItems.Include(r => r.Recipients).ToList();
         }
     }
 }
