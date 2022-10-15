@@ -51,7 +51,6 @@ namespace EmailServiceWebApi.Controllers
             {
                 return BadRequest();
             }
-
             var item = Mapping.ToMailsItem(itemPostPost);
 
             _emailSender.SendEmailMessage(item);
