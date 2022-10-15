@@ -5,6 +5,8 @@ using EmailService.Db.Models;
 using EmailServiceWebApi.Helpers;
 using EmailServiceWebApi.Models;
 using Microsoft.AspNetCore.Mvc;
+using AutoMapper;
+using EmailService.Db;
 
 namespace EmailServiceWebApi.Controllers
 {
@@ -27,7 +29,12 @@ namespace EmailServiceWebApi.Controllers
         public IEnumerable<MailsItemGet> GetAll()
         {
             var mails = _mails.GetAll();
-            var mailsView = Mapping.ToListMailsItemGet(mails);
+            // Создание конфигурации сопоставления
+            var config = new MapperConfiguration(cfg => cfg.CreateMap<MailsItem, MailsItemGet>());
+            // Настройка AutoMapper
+            var mapper = new Mapper(config);
+            // сопоставление
+            var mailsView = mapper.Map<List<MailsItemGet>>(_mails.GetAll());
             return mailsView;
         }
 
