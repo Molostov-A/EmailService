@@ -3,20 +3,20 @@ using EmailService.Db.Models;
 using EmailServiceWebApi.Models;
 using MailKit.Net.Smtp;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using MimeKit;
 
 namespace EmailServiceWebApi
 {
     public class EmailSender
     {
-        private string titleMail => "EmailServiceWebApi";
-        private string nameFileConfigurationEmailServer => "configurationEmailServer";
-
         private readonly ILogger<EmailSender> _logger;
+        private readonly ConfigureEmailServer _configureEmailServer;
 
-        public EmailSender(ILogger<EmailSender> logger)
+        public EmailSender(ILogger<EmailSender> logger, IOptions<ConfigureEmailServer> options)
         {
             _logger = logger;
+            _configureEmailServer = options.Value;
         }
 
         /// <summary>
@@ -25,13 +25,10 @@ namespace EmailServiceWebApi
         /// <param name="item">The data packet required to send messages</param>
         public void SendEmailMessage(MailsItem item)
         {
-            var jsonProvider = new JsonProvider(nameFileConfigurationEmailServer);
-            var configEmailServer = jsonProvider.Read<ConfigureEmailServer>();
-            //
             try
             {
                 var message = new MimeMessage();
-                message.From.Add(new MailboxAddress(titleMail, configEmailServer.EmailFrom));
+                message.From.Add(new MailboxAddress(_configureEmailServer.TitleMail, _configureEmailServer.EmailFrom));
 
                 foreach (var recipient in item.Recipients)
                 {
@@ -53,7 +50,7 @@ namespace EmailServiceWebApi
                     client.AuthenticationMechanisms.Remove("XOAUTH2");
 
                     // only needed if the SMTP server requires authentication
-                    client.Authenticate(configEmailServer.EmailFrom, configEmailServer.Password);
+                    client.Authenticate(_configureEmailServer.EmailFrom, _configureEmailServer.Password);
 
                     client.Send(message);
                     client.Disconnect(true);
