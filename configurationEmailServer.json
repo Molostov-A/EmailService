@@ -1,4 +1,9 @@
 {
     "emailFrom": "mail@gmail.com",
-    "password": "password"
+    "password": "password",
+    "titleMail": "titleMail",
+    "host": "smtp.gmail.com",
+    "port": 587,
+    "removeAuthenticationMechanism": true,
+    "typeTokenAuthenticationMechanism": "XOAUTH2"    
   }
