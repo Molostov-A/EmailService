@@ -13,19 +13,21 @@ namespace EmailServiceWebApi
 {
     public class Startup
     {
+        public IConfiguration AppConfiguration { get; set; }
+        public IConfiguration Configuration { get; }
         public Startup(IConfiguration configuration)
         {
+            var builder = new ConfigurationBuilder().AddJsonFile(AppContext.BaseDirectory + "configurationEmailServer.json");
+            AppConfiguration = builder.Build();
             Configuration = configuration;
         }
-
-        public IConfiguration Configuration { get; }
 
         public void ConfigureServices(IServiceCollection services)
         {
             string connection = Configuration.GetConnectionString("email_service");
 
             // создание объекта ConfigureEmailServer по ключам из конфигурации
-            services.Configure<ConfigureEmailServer>(Configuration);
+            services.Configure<ConfigureEmailServer>(AppConfiguration);
 
             services.AddControllers();
             services.AddMvc();
