@@ -35,7 +35,9 @@ namespace EmailService.Db
         /// <returns></returns>
         public IEnumerable<MailsItem> GetAll()
         {
-            return _db.MailsItems.Include(r => r.Recipients).ToList();
+            return _db.MailsItems
+                .Include(r => r.Recipients)
+                .AsNoTracking().ToList();
         }
     }
 }
