@@ -12,5 +12,8 @@ namespace EmailServiceWebApi.Models
 
         [JsonPropertyName("password")]
         public string Password { get; set; }
+
+        [JsonPropertyName("titleMail")]
+        public string TitleMail { get; set; }
     }
 }
