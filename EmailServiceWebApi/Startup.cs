@@ -6,6 +6,8 @@ using Microsoft.Extensions.Hosting;
 using EmailService.Db;
 using EmailService.Db.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System;
+using EmailServiceWebApi.Models;
 
 namespace EmailServiceWebApi
 {
@@ -21,6 +23,9 @@ namespace EmailServiceWebApi
         public void ConfigureServices(IServiceCollection services)
         {
             string connection = Configuration.GetConnectionString("email_service");
+
+            // создание объекта ConfigureEmailServer по ключам из конфигурации
+            services.Configure<ConfigureEmailServer>(Configuration);
 
             services.AddControllers();
             services.AddMvc();
