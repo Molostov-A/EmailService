@@ -10,7 +10,10 @@ namespace EmailServiceWebApi.Models
         public string EmailFrom { get; set; }
         public string Password { get; set; }
         public string TitleMail { get; set; }
-
+        public string Host { get; set; }
+        public int Port { get; set; }
+        public bool RemoveAuthenticationMechanism { get; set; }
+        public string TypeTokenAuthenticationMechanism { get; set; }
 
     }
 }
