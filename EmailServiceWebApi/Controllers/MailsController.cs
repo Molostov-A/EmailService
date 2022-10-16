@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using EmailService.Db.Interfaces;
 using EmailService.Db.Models;
 using EmailServiceWebApi.Helpers;
@@ -26,15 +27,14 @@ namespace EmailServiceWebApi.Controllers
         /// Get request to get the data of all post requests to send emails (url/../api/mails/)
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<MailsItemGet> GetAll()
+        public async Task<IEnumerable<MailsItemGet>> GetAllAsync()
         {
-            var mails = _mails.GetAllAsync();
             // Создание конфигурации сопоставления
             var config = new MapperConfiguration(cfg => cfg.CreateMap<MailsItem, MailsItemGet>());
             // Настройка AutoMapper
             var mapper = new Mapper(config);
             // сопоставление
-            var mailsView = mapper.Map<List<MailsItemGet>>(_mails.GetAllAsync());
+            var mailsView = mapper.Map<List<MailsItemGet>>(await _mails.GetAllAsync());
             return mailsView;
         }
 
@@ -45,16 +45,18 @@ namespace EmailServiceWebApi.Controllers
         /// <param name="itemPostPost"></param>
         /// <returns></returns>
         [HttpPost]
-        public IActionResult Send([FromBody] MailsItemPost itemPostPost)
+        public async Task<IActionResult> Send([FromBody] MailsItemPost itemPostPost)
         {
+            
             if (itemPostPost == null)
             {
                 return BadRequest();
             }
-            var item = Mapping.ToMailsItem(itemPostPost);
+            var mapper = new Mapping();
+            var item = await mapper.ToMailsItemAsync(itemPostPost);
 
-            _emailSender.SendEmailMessage(item);
-            _mails.AddAsync(item);
+            await _emailSender.SendEmailMessageAsync(item);
+            await _mails.AddAsync(item);
 
             return CreatedAtRoute("GetMails", new { id = item.Id }, item);
         }
