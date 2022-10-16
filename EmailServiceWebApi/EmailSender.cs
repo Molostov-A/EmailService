@@ -45,15 +45,15 @@ namespace EmailServiceWebApi
 
                 using (var client = new SmtpClient())
                 {
-                    client.Connect(_configureEmailServer.Host, _configureEmailServer.Port);
+                    await client.ConnectAsync(_configureEmailServer.Host, _configureEmailServer.Port);
 
                     if(_configureEmailServer.RemoveAuthenticationMechanism)
                         client.AuthenticationMechanisms.Remove(_configureEmailServer.TypeTokenAuthenticationMechanism);
 
-                    client.Authenticate(_configureEmailServer.EmailFrom, _configureEmailServer.Password);
+                    await client.AuthenticateAsync(_configureEmailServer.EmailFrom, _configureEmailServer.Password);
 
-                    client.Send(message);
-                    client.Disconnect(true);
+                    await client.SendAsync(message);
+                    await client.DisconnectAsync(true);
                     _logger.LogInformation("Message sent successfully!");
                     item.Result = "OK";
                 }
