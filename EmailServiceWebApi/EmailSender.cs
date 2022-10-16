@@ -9,6 +9,9 @@ using MimeKit;
 
 namespace EmailServiceWebApi
 {
+    /// <summary>
+    /// Responsible for sending emails
+    /// </summary>
     public class EmailSender
     {
         private readonly ILogger<EmailSender> _logger;
@@ -29,7 +32,7 @@ namespace EmailServiceWebApi
             try
             {
                 var message = new MimeMessage();
-                message.From.Add(new MailboxAddress(_configureEmailServer.TitleMail, _configureEmailServer.EmailFrom));
+                message.From.Add(new MailboxAddress(_configureEmailServer.SenderNameMail, _configureEmailServer.EmailFrom));
 
                 foreach (var recipient in item.Recipients)
                 {

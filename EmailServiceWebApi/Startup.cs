@@ -31,7 +31,6 @@ namespace EmailServiceWebApi
 
             services.AddControllers();
             services.AddMvc();
-
             services.AddDbContext<DatabaseContext>(options =>
                 options.UseSqlServer(connection));
             services.AddTransient<EmailSender>();
@@ -44,13 +43,10 @@ namespace EmailServiceWebApi
             {
                 app.UseDeveloperExceptionPage();
             }
-
             app.UseHttpsRedirection();
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
-            
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using EmailService.Db.Interfaces;
 using EmailService.Db.Models;
@@ -7,10 +6,12 @@ using EmailServiceWebApi.Helpers;
 using EmailServiceWebApi.Models;
 using Microsoft.AspNetCore.Mvc;
 using AutoMapper;
-using EmailService.Db;
 
 namespace EmailServiceWebApi.Controllers
 {
+    /// <summary>
+    /// Controller for working with the Api sending message requests
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class MailsController : ControllerBase
@@ -29,11 +30,8 @@ namespace EmailServiceWebApi.Controllers
         /// <returns></returns>
         public async Task<IEnumerable<MailsItemGet>> GetAllAsync()
         {
-            // Создание конфигурации сопоставления
             var config = new MapperConfiguration(cfg => cfg.CreateMap<MailsItem, MailsItemGet>());
-            // Настройка AutoMapper
             var mapper = new Mapper(config);
-            // сопоставление
             var mailsView = mapper.Map<List<MailsItemGet>>(await _mails.GetAllAsync());
             return mailsView;
         }
@@ -52,6 +50,7 @@ namespace EmailServiceWebApi.Controllers
             {
                 return BadRequest();
             }
+
             var mapper = new Mapping();
             var item = await mapper.ToMailsItemAsync(itemPostPost);
 
@@ -60,7 +59,5 @@ namespace EmailServiceWebApi.Controllers
 
             return CreatedAtRoute("GetMails", new { id = item.Id }, item);
         }
-
-
     }
 }
