@@ -1,7 +1,7 @@
 {
     "emailFrom": "mail@gmail.com",
     "password": "password",
-    "senderNameMail": "SenderNameMail,
+    "senderNameMail": "SenderNameMail",
     "host": "smtp.gmail.com",
     "port": 587,
     "removeAuthenticationMechanism": true,
