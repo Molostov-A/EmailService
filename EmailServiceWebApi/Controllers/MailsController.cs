@@ -28,13 +28,13 @@ namespace EmailServiceWebApi.Controllers
         /// <returns></returns>
         public IEnumerable<MailsItemGet> GetAll()
         {
-            var mails = _mails.GetAll();
+            var mails = _mails.GetAllAsync();
             // Создание конфигурации сопоставления
             var config = new MapperConfiguration(cfg => cfg.CreateMap<MailsItem, MailsItemGet>());
             // Настройка AutoMapper
             var mapper = new Mapper(config);
             // сопоставление
-            var mailsView = mapper.Map<List<MailsItemGet>>(_mails.GetAll());
+            var mailsView = mapper.Map<List<MailsItemGet>>(_mails.GetAllAsync());
             return mailsView;
         }
 
@@ -54,7 +54,7 @@ namespace EmailServiceWebApi.Controllers
             var item = Mapping.ToMailsItem(itemPostPost);
 
             _emailSender.SendEmailMessage(item);
-            _mails.Add(item);
+            _mails.AddAsync(item);
 
             return CreatedAtRoute("GetMails", new { id = item.Id }, item);
         }
