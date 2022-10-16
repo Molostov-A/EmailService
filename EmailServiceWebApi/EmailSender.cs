@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using EmailService.Db.Models;
 using EmailServiceWebApi.Models;
 using MailKit.Net.Smtp;
@@ -23,7 +24,7 @@ namespace EmailServiceWebApi
         /// Send email messages
         /// </summary>
         /// <param name="item">The data packet required to send messages</param>
-        public void SendEmailMessage(MailsItem item)
+        public async Task SendEmailMessageAsync(MailsItem item)
         {
             try
             {
