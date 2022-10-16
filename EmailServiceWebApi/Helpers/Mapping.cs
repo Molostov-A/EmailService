@@ -2,12 +2,13 @@
 using EmailServiceWebApi.Models;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace EmailServiceWebApi.Helpers
 {
-    public static class Mapping
+    public class Mapping
     {
-        public static MailsItem ToMailsItem(MailsItemPost itemPostPost)
+        public async Task<MailsItem> ToMailsItemAsync(MailsItemPost itemPostPost)
         {
             MailsItem item = new MailsItem();
             List<Recipient> recipients = new List<Recipient>();
