@@ -42,7 +42,7 @@ namespace EmailServiceWebApi.Controllers
         /// <param name="itemPostPost"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<IActionResult> Send([FromBody] MailsItemPost itemPostPost)
+        public async Task<IActionResult> SendAsync([FromBody] MailsItemPost itemPostPost)
         {
             
             if (itemPostPost == null)
@@ -56,7 +56,7 @@ namespace EmailServiceWebApi.Controllers
             await _emailSender.SendEmailMessageAsync(item);
             await _mails.AddAsync(item);
 
-            return CreatedAtRoute("GetMails", new { id = item.Id }, item);
+            return Ok();
         }
     }
 }
