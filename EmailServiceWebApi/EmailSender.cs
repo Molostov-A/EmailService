@@ -1,37 +1,38 @@
 ﻿using System;
+using System.Threading.Tasks;
 using EmailService.Db.Models;
 using EmailServiceWebApi.Models;
 using MailKit.Net.Smtp;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using MimeKit;
 
 namespace EmailServiceWebApi
 {
+    /// <summary>
+    /// Responsible for sending emails
+    /// </summary>
     public class EmailSender
     {
-        private string titleMail => "EmailServiceWebApi";
-        private string nameFileConfigurationEmailServer => "configurationEmailServer";
-
         private readonly ILogger<EmailSender> _logger;
+        private readonly ConfigureEmailServer _configureEmailServer;
 
-        public EmailSender(ILogger<EmailSender> logger)
+        public EmailSender(ILogger<EmailSender> logger, IOptions<ConfigureEmailServer> options)
         {
             _logger = logger;
+            _configureEmailServer = options.Value;
         }
 
         /// <summary>
         /// Send email messages
         /// </summary>
         /// <param name="item">The data packet required to send messages</param>
-        public void SendEmailMessage(MailsItem item)
+        public async Task SendEmailMessageAsync(MailsItem item)
         {
-            var jsonProvider = new JsonProvider(nameFileConfigurationEmailServer);
-            var configEmailServer = jsonProvider.Read<ConfigureEmailServer>();
-            //
             try
             {
                 var message = new MimeMessage();
-                message.From.Add(new MailboxAddress(titleMail, configEmailServer.EmailFrom));
+                message.From.Add(new MailboxAddress(_configureEmailServer.SenderNameMail, _configureEmailServer.EmailFrom));
 
                 foreach (var recipient in item.Recipients)
                 {
@@ -47,16 +48,15 @@ namespace EmailServiceWebApi
 
                 using (var client = new SmtpClient())
                 {
-                    client.Connect("smtp.gmail.com", 587);
+                    await client.ConnectAsync(_configureEmailServer.Host, _configureEmailServer.Port);
 
-                    // since we don't have an OAuth2 token, disable the OAUTH2 authentication mechanism.
-                    client.AuthenticationMechanisms.Remove("XOAUTH2");
+                    if(_configureEmailServer.RemoveAuthenticationMechanism)
+                        client.AuthenticationMechanisms.Remove(_configureEmailServer.TypeTokenAuthenticationMechanism);
 
-                    // only needed if the SMTP server requires authentication
-                    client.Authenticate(configEmailServer.EmailFrom, configEmailServer.Password);
+                    await client.AuthenticateAsync(_configureEmailServer.EmailFrom, _configureEmailServer.Password);
 
-                    client.Send(message);
-                    client.Disconnect(true);
+                    await client.SendAsync(message);
+                    await client.DisconnectAsync(true);
                     _logger.LogInformation("Message sent successfully!");
                     item.Result = "OK";
                 }

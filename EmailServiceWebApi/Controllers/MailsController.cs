@@ -1,33 +1,37 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using EmailService.Db.Interfaces;
-using EmailService.Db.Models;
 using EmailServiceWebApi.Helpers;
 using EmailServiceWebApi.Models;
 using Microsoft.AspNetCore.Mvc;
+using AutoMapper;
 
 namespace EmailServiceWebApi.Controllers
 {
+    /// <summary>
+    /// Controller for working with the Api sending message requests
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class MailsController : ControllerBase
     {
         private readonly IMailsRepository _mails;
         private readonly EmailSender _emailSender;
-        public MailsController(IMailsRepository mails, EmailSender emailSender)
+        private readonly IMapper _mapper;
+        public MailsController(IMailsRepository mails, EmailSender emailSender, IMapper mapper)
         {
             _mails = mails;
             _emailSender = emailSender;
+            _mapper = mapper;
         }
 
         /// <summary>
         /// Get request to get the data of all post requests to send emails (url/../api/mails/)
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<MailsItemGet> GetAll()
+        public async Task<IEnumerable<MailsItemGet>> GetAllAsync()
         {
-            var mails = _mails.GetAll();
-            var mailsView = Mapping.ToListMailsItemGet(mails);
+            var mailsView = _mapper.Map<List<MailsItemGet>>(await _mails.GetAllAsync());
             return mailsView;
         }
 
@@ -38,21 +42,21 @@ namespace EmailServiceWebApi.Controllers
         /// <param name="itemPostPost"></param>
         /// <returns></returns>
         [HttpPost]
-        public IActionResult Send([FromBody] MailsItemPost itemPostPost)
+        public async Task<IActionResult> SendAsync([FromBody] MailsItemPost itemPostPost)
         {
+            
             if (itemPostPost == null)
             {
                 return BadRequest();
             }
 
-            var item = Mapping.ToMailsItem(itemPostPost);
+            var mapper = new Mapping();
+            var item = mapper.ToMailsItemAsync(itemPostPost);
 
-            _emailSender.SendEmailMessage(item);
-            _mails.Add(item);
+            await _emailSender.SendEmailMessageAsync(item);
+            await _mails.AddAsync(item);
 
-            return CreatedAtRoute("GetMails", new { id = item.Id }, item);
+            return Ok();
         }
-
-
     }
 }
