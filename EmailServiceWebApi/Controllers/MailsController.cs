@@ -18,10 +18,12 @@ namespace EmailServiceWebApi.Controllers
     {
         private readonly IMailsRepository _mails;
         private readonly EmailSender _emailSender;
-        public MailsController(IMailsRepository mails, EmailSender emailSender)
+        private readonly IMapper _mapper;
+        public MailsController(IMailsRepository mails, EmailSender emailSender, IMapper mapper)
         {
             _mails = mails;
             _emailSender = emailSender;
+            _mapper = mapper;
         }
 
         /// <summary>
@@ -30,9 +32,7 @@ namespace EmailServiceWebApi.Controllers
         /// <returns></returns>
         public async Task<IEnumerable<MailsItemGet>> GetAllAsync()
         {
-            var config = new MapperConfiguration(cfg => cfg.CreateMap<MailsItem, MailsItemGet>());
-            var mapper = new Mapper(config);
-            var mailsView = mapper.Map<List<MailsItemGet>>(await _mails.GetAllAsync());
+            var mailsView = _mapper.Map<List<MailsItemGet>>(await _mails.GetAllAsync());
             return mailsView;
         }
 

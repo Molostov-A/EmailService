@@ -8,6 +8,8 @@ using EmailService.Db.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
 using EmailServiceWebApi.Models;
+using AutoMapper;
+using EmailService.Db.Models;
 
 namespace EmailServiceWebApi
 {
@@ -26,7 +28,7 @@ namespace EmailServiceWebApi
         {
             string connection = Configuration.GetConnectionString("email_service");
 
-            // создание объекта ConfigureEmailServer по ключам из конфигурации
+            // creating the Configure Email Server object using the keys from the configuration
             services.Configure<ConfigureEmailServer>(AppConfiguration);
 
             services.AddControllers();
@@ -35,6 +37,11 @@ namespace EmailServiceWebApi
                 options.UseSqlServer(connection));
             services.AddTransient<EmailSender>();
             services.AddTransient<IMailsRepository, MailsDbRepository>();
+
+            // Auto Mapper Configurations
+            var mapperConfig = new MapperConfiguration(cfg => cfg.CreateMap<MailsItem, MailsItemGet>());
+            IMapper mapper = mapperConfig.CreateMapper();
+            services.AddSingleton(mapper);
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
