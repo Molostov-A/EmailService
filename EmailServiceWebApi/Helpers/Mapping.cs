@@ -16,7 +16,7 @@ namespace EmailServiceWebApi.Helpers
         /// </summary>
         /// <param name="itemPost">POST request model for MailsItem</param>
         /// <returns></returns>
-        public async Task<MailsItem> ToMailsItemAsync(MailsItemPost itemPost)
+        public MailsItem ToMailsItemAsync(MailsItemPost itemPost)
         {
             MailsItem item = new MailsItem();
             List<Recipient> recipients = new List<Recipient>();

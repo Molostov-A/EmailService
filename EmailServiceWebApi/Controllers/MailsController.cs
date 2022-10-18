@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using EmailService.Db.Interfaces;
-using EmailService.Db.Models;
 using EmailServiceWebApi.Helpers;
 using EmailServiceWebApi.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -52,7 +51,7 @@ namespace EmailServiceWebApi.Controllers
             }
 
             var mapper = new Mapping();
-            var item = await mapper.ToMailsItemAsync(itemPostPost);
+            var item = mapper.ToMailsItemAsync(itemPostPost);
 
             await _emailSender.SendEmailMessageAsync(item);
             await _mails.AddAsync(item);
