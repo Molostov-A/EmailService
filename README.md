@@ -35,6 +35,6 @@ _В корне сборки добавлен образец файла конф�
 - ASP.NET Core Api
 - MailKit
 - СУБД - MS SQL
-- Entity Framework (добавлены миграции) 
+- Entity Framework
 - Asinc
 - AutoMapper
